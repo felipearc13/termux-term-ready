@@ -21,7 +21,7 @@ mv $PREFIX/etc/tor/torrc $PREFIX/etc/tor/torrc.bkp
 wget https://raw.githubusercontent.com/felipearc13/termux-ini-f13/master/torrc -P $PREFIX/etc/tor/
 mkdir -p ~/.tor/hidden_ssh
 mkdir ~/doc/
-wget https://raw.githubusercontent.com/felipearc13/termux-ini-f13/master/info.tor -P ~/doc/
+wget https://raw.githubusercontent.com/felipearc13/termux-ini-f13/master/info-tor.md -P ~/doc/
 
 #Adicionando extra-keys
 pkg install git raw -y
