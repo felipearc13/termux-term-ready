@@ -4,6 +4,13 @@
 pkg install  root-repo unstable-repo x11-repo
 pkg update && apt upgrade -y
 
+#Instalando OpenSSH
+passwd termux
+123456
+123456
+pkg isntall openssh
+sshd 
+
 #Instalando FTP
 pkg install busybox termux-services -y 
 source $PREFIX/etc/profile.d/start-services.sh
