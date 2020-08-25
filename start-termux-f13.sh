@@ -1,14 +1,14 @@
 #!/bin/bash
 
 #Instalando repositorios
-pkg install  root-repo unstable-repo x11-repo
-pkg update && apt upgrade -y
+pkg install  root-repo unstable-repo x11-repo -y
+pkg update -y && apt upgrade -y
 
 #Instalando OpenSSH
 passwd termux
 123456
 123456
-pkg isntall openssh
+pkg isntall openssh -y
 sshd 
 
 #Instalando FTP
