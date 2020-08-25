@@ -79,7 +79,6 @@ rm -rf fonts
 mkdir -p ~/.config/fontconfigs/
 wget https://raw.githubusercontent.com/felipearc13/termux-ini-f13/master/conf.d -P ~/.config/fontconfig/
 fc-cache -vf
-echo Tarefa Completa! Reiniciando o Termux..
+echo Tarefa Completa! Reinicie o Termux...
 
-exit
 
