@@ -6,7 +6,7 @@ pkg update -y && apt upgrade -y
 
 #Instalando OpenSSH
 pkg install termux-auth -y
-pkg isntall openssh -y
+pkg isntall openssh -y 
 
 #Instalando FTP
 pkg install busybox termux-services -y 
@@ -64,13 +64,14 @@ chmod +x $PREFIX/etc/xdg/openbox/autostart
 mv  $PREFIX/etc/apt/sources.list  $PREFIX/etc/apt/sources.list.bkp
 wget https://raw.githubusercontent.com/felipearc13/termux-ini-f13/master/sources.list -P $PREFIX/etc/apt/
 
-#Acessa memoria do celular
-termux-setup-storage
-
 #Instalando zsh
 pkg install zsh -y 
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 
+#Acessa memoria do celular
+termux-setup-storage
+
+#Fim
 echo Tarefa Completa! Reinicie o Termux...
 
 
