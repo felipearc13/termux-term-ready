@@ -1,0 +1,11 @@
+================================================
+**************Welcome to Termux!****************
+================================================
+ - FTP/SFTP:
+  * Enable/Start: sv-enable ftpd/sv up ftpd
+  * Port: 8022, 8021 <ready-only mode>
+ - SSH:
+  * Start/Stop: sshd/pkill sshd
+ - Tor:
+  * ~/doc/tor
+================================================
