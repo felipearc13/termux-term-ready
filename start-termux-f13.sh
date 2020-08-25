@@ -22,9 +22,6 @@ wget https://raw.githubusercontent.com/felipearc13/termux-ini-f13/master/torrc -
 mkdir -p ~/.tor/hidden_ssh
 mkdir ~/doc/
 wget https://raw.githubusercontent.com/felipearc13/termux-ini-f13/master/info.tor -P ~/doc/
-echo " "
-echo "Informacoes de acesso em ~/doc/info.tor"
-echo " "
 
 #Adicionando extra-keys
 pkg install git raw -y
@@ -48,9 +45,6 @@ vncserver
 123456
 123456
 -n
-echo " "
-echo "Desativando vncserver"
-echo " "
 vncserver -kill :1
 mv ~/.vnc/xstartup ~/.vnc/xstartup.bkp
 wget https://raw.githubusercontent.com/felipearc13/termux-ini-f13/master/xstartup -P ~/.vnc/
