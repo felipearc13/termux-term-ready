@@ -5,6 +5,7 @@ pkg install  root-repo unstable-repo x11-repo -y
 pkg update -y && apt upgrade -y
 
 #Instalando OpenSSH
+pkg install termux-auth -y
 passwd termux
 123456
 123456
