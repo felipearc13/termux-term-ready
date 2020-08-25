@@ -8,6 +8,13 @@ pkg update -y && apt upgrade -y
 pkg install termux-auth -y
 pkg isntall openssh -y 
 
+#Ativando user termux
+pkg install termux-auth -y
+passwd termux
+123456
+123456
+sshd
+
 #Instalando FTP
 pkg install busybox termux-services -y 
 source $PREFIX/etc/profile.d/start-services.sh
