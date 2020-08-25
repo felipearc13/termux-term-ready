@@ -8,5 +8,5 @@
  - SSH:
   * Start/Stop: sshd/pkill sshd
  - Tor:
-  * vim ~/doc/tor.md
+  * vim ~/doc/info-tor.md
 ================================================
