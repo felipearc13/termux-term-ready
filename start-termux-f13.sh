@@ -68,17 +68,9 @@ wget https://raw.githubusercontent.com/felipearc13/termux-ini-f13/master/sources
 termux-setup-storage
 
 #Instalando zsh
-pkg install zsh fontconfig-utils -y 
-sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" -y
-cd ~
-git clone https://github.com/powerline/fonts.git --depth=1
-cd fonts
-./install.sh
-cd ..
-rm -rf fonts
-mkdir -p ~/.config/fontconfigs/
-wget https://raw.githubusercontent.com/felipearc13/termux-ini-f13/master/conf.d -P ~/.config/fontconfig/
-fc-cache -vf
+pkg install zsh -y 
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+
 echo Tarefa Completa! Reinicie o Termux...
 
 
