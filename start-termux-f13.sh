@@ -6,11 +6,7 @@ pkg update -y && apt upgrade -y
 
 #Instalando OpenSSH
 pkg install termux-auth -y
-passwd termux
-123456
-123456
 pkg isntall openssh -y
-sshd 
 
 #Instalando FTP
 pkg install busybox termux-services -y 
