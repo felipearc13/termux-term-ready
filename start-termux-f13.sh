@@ -13,10 +13,7 @@ pkg install openssh termux-auth -y
 pkg update -y && pkg upgrade -y
 pkg install busybox termux-services -y 
 source $PREFIX/etc/profile.d/start-services.sh
-
-#Ativando FTP
 sv-enable ftpd
-sv up ftpd
 
 #Instalando tor e torsocks
 pkg update -y && pkg upgrade -y
@@ -44,19 +41,17 @@ proot-distro install ubuntu
 
 #Instalando zsh
 pkg update -y && pkg upgrade -y
-pkg install zsh -y 
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
-
+pkg install zsh -y
+chsh -s /bin/zsh
+sh -c "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
 
 #Modificando motd
 mv /data/data/com.termux/files/usr/etc/motd  /data/data/com.termux/files/usr/etc/motd.bkp
 wget https://raw.githubusercontent.com/felipearc13/termux-ini-f13/master/motd -P /data/data/com.termux/files/usr/etc/
 
-
-
 #Graphical Environment
 pkg update -y && pkg upgrade -y
-pkg install tigervnc openbox pypanel xorg-xsetroot xfce4-terminal aterm st fltk megatools openbox obconf xterm xfce4-settings polybar libnl geanypcmanfm rofi feh neofetch curl pulseaudio elinks dosbox -y
+pkg install tigervnc openbox pypanel xorg-xsetroot xfce4-terminal aterm st fltk megatools openbox obconf xterm xfce4-settings polybar libnl geany pcmanfm rofi feh neofetch curl pulseaudio elinks dosbox -y
 vncserver
 123456
 123456
