@@ -1,20 +1,2 @@
-#Termux (main)
+
 deb https://termux.org/packages/ stable main
-
-#Main (termux-packages):
-deb https://main.termux-mirror.ml stable main
-
-#Games (game-packages):
-deb https://games.termux-mirror.ml games stable
-
-#Root (termux-root-packages):
-deb https://root.termux-mirror.ml root stable
-
-#Science (science-packages):
-deb https://science.termux-mirror.ml science stable
-
-#Unstable (unstable-packages):
-deb https://unstable.termux-mirror.ml unstable main
-
-#X11 (x11-packages):
-deb https://x11.termux-mirror.ml x11 main
