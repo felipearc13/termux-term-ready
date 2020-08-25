@@ -5,8 +5,7 @@ pkg install  root-repo unstable-repo x11-repo -y
 pkg update -y && apt upgrade -y
 
 #Instalando OpenSSH
-pkg install termux-auth -y
-pkg isntall openssh -y
+pkg install openssh termux-auth -y
 
 #Instalando FTP
 pkg install busybox termux-services -y 
@@ -60,13 +59,13 @@ mv $PREFIX/etc/xdg/openbox/autostart $PREFIX/etc/xdg/openbox/autostart.bkp
 wget https://raw.githubusercontent.com/felipearc13/termux-ini-f13/master/autostart -P $PREFIX/etc/xdg/openbox/
 chmod +x $PREFIX/etc/xdg/openbox/autostart
 
-#Editando sources.list
-mv  $PREFIX/etc/apt/sources.list  $PREFIX/etc/apt/sources.list.bkp
-wget https://raw.githubusercontent.com/felipearc13/termux-ini-f13/master/sources.list -P $PREFIX/etc/apt/
-
 #Instalando zsh
 pkg install zsh -y 
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+
+#Editando sources.list
+mv  $PREFIX/etc/apt/sources.list  $PREFIX/etc/apt/sources.list.bkp
+wget https://raw.githubusercontent.com/felipearc13/termux-ini-f13/master/sources.list -P $PREFIX/etc/apt/
 
 #Acessa memoria do celular
 termux-setup-storage
