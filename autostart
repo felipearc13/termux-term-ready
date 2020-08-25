@@ -1,0 +1,5 @@
+# Make background gray.
+xsetroot -solid gray
+
+# Launch PyPanel.
+pypanel &
