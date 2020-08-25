@@ -2,7 +2,7 @@
 
 #Instalando repositorios
 pkg install  root-repo unstable-repo x11-repo
-pkg update && apt upgrade
+pkg update && apt upgrade -y
 
 #Instalando FTP
 pkg install busybox termux-services -y 
@@ -11,11 +11,6 @@ source $PREFIX/etc/profile.d/start-services.sh
 #Ativando FTP
 sv-enable ftpd
 sv up ftpd
-
-#Instalando openssh
-pkg install openssh -y
-sshd
-pkill sshd
 
 #Instalando tor e torsocks
 pkg install tor torsocks -y
@@ -44,6 +39,30 @@ pkg insttall vim -y
 pkg install proot proot-distro -y 
 proot-distro install ubuntu
 
+#Graphical Environment
+pkg install tigervnc openbox pypanel xorg-xsetroot xfce4-terminal aterm st fltk megatools openbox obconf xterm xfce4-settings polybar libnl geanypcmanfm rofi feh neofetch curl pulseaudio elinks dosbox -y
+vncserver
+123456
+123456
+-n
+echo " "
+echo "Desativando vncserver"
+echo " "
+vncserver -kill :1
+mv ~/.vnc/xstartup ~/.vnc/xstartup.bkp
+wget https://raw.githubusercontent.com/felipearc13/termux-ini-f13/master/xstartup -P ~/.vnc/
+chmod +x ~/.vnc/xstartup
+mv $PREFIX/etc/xdg/openbox/autostart $PREFIX/etc/xdg/openbox/autostart.bkp
+wget https://raw.githubusercontent.com/felipearc13/termux-ini-f13/master/autostart -P $PREFIX/etc/xdg/openbox/
+chmod +x $PREFIX/etc/xdg/openbox/autostart
+
+#Editando sources.list
+mv  $PREFIX/etc/apt/sources.list  $PREFIX/etc/apt/sources.list.bkp
+wget https://raw.githubusercontent.com/felipearc13/termux-ini-f13/master/sources.list -P $PREFIX/etc/apt/
+
+#Acessa memoria do celular
+termux-setup-storage
+
 #Instalando zsh
 pkg install zsh fontconfig-utils -y 
 sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" -y
@@ -56,29 +75,7 @@ rm -rf fonts
 mkdir -p ~/.config/fontconfigs/
 wget https://raw.githubusercontent.com/felipearc13/termux-ini-f13/master/conf.d -P ~/.config/fontconfig/
 fc-cache -vf
+echo Tarefa Completa! Reiniciando o Termux..
 
-#Graphical Environment
-pkg install tigervnc openbox pypanel xorg-xsetroot xfce4-terminal aterm st fltk megatools openbox obconf xterm xfce4-settings polybar libnl geany pcmanfm rofi feh neofetch curl pulseaudio elinks -y
-vncserver
-123456
-123456
--n
-echo " "
-echo "Desativando vncserver"
-echo " "
-vncserver -kill :1
-mv ~/.vnc/xstartup ~/.vnc/xstartup.bkp
-wget https://raw.githubusercontent.com/felipearc13/termux-ini-f13/master/xstartup -P ~/.vnc/
-chmod +x ~/.vnc/xstartup
-mkdir -p $PREFIX/etc/xdg/openbox/
-mv autostart autostart.bkp
-wget https://raw.githubusercontent.com/felipearc13/termux-ini-f13/master/autostart -P $PREFIX/etc/xdg/openbox/
-chmod +x $PREFIX/etc/xdg/openbox/autostart
+exit
 
-#Editando sources.list
-
-mv  $PREFIX/etc/apt/sources.list  $PREFIX/etc/apt/sources.list.bkp
-wget https://raw.githubusercontent.com/felipearc13/termux-ini-f13/master/sources.list -P $PREFIX/etc/apt/
-
-#Acessa memoria do celular
-termux-setup-storage
