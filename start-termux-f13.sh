@@ -3,11 +3,17 @@
 #Instalando repositorios
 pkg update -y && pkg upgrade -y
 pkg install  root-repo unstable-repo x11-repo -y
+
+#Modificando motd
 pkg update -y && pkg upgrade -y
+pkg install wget git
+mv /data/data/com.termux/files/usr/etc/motd  /data/data/com.termux/files/usr/etc/motd.bkp
+wget https://raw.githubusercontent.com/felipearc13/termux-ini-f13/master/motd -P /data/data/com.termux/files/usr/etc/
 
 #Instalando OpenSSH
 pkg update -y && pkg upgrade -y
 pkg install openssh termux-auth -y
+passwd termux
 
 #Instalando FTP
 pkg update -y && pkg upgrade -y
@@ -26,7 +32,6 @@ wget https://raw.githubusercontent.com/felipearc13/termux-ini-f13/master/info-to
 
 #Adicionando extra-keys
 pkg update -y && pkg upgrade -y
-pkg install git raw -y
 mkdir ~/.termux
 wget https://raw.githubusercontent.com/felipearc13/termux-ini-f13/master/termux.properties -P ~/.termux/
 
@@ -34,20 +39,9 @@ wget https://raw.githubusercontent.com/felipearc13/termux-ini-f13/master/termux.
 pkg update -y && pkg upgrade -y
 pkg insttall vim -y
 
-#Instalando Ubuntu
+#Instalando proot-distro
 pkg update -y && pkg upgrade -y
 pkg install proot proot-distro -y 
-proot-distro install ubuntu
-
-#Instalando zsh
-pkg update -y && pkg upgrade -y
-pkg install zsh -y
-chsh -s /bin/zsh
-sh -c "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
-
-#Modificando motd
-mv /data/data/com.termux/files/usr/etc/motd  /data/data/com.termux/files/usr/etc/motd.bkp
-wget https://raw.githubusercontent.com/felipearc13/termux-ini-f13/master/motd -P /data/data/com.termux/files/usr/etc/
 
 #Graphical Environment
 pkg update -y && pkg upgrade -y
@@ -63,6 +57,13 @@ chmod +x ~/.vnc/xstartup
 mv $PREFIX/etc/xdg/openbox/autostart $PREFIX/etc/xdg/openbox/autostart.bkp
 wget https://raw.githubusercontent.com/felipearc13/termux-ini-f13/master/autostart -P $PREFIX/etc/xdg/openbox/
 chmod +x $PREFIX/etc/xdg/openbox/autostart
+
+#Instalando zsh
+pkg install zsh
+termux-tools zsh -y
+chsh -s zsh
+curl -Lo install.sh https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
+sh install.sh
 
 #Acessa memoria do celular
 termux-setup-storage
