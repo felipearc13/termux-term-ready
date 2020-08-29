@@ -58,11 +58,20 @@ chmod +x $PREFIX/etc/xdg/openbox/autostart
 
 ## Instalando zsh
 
-pkg install zsh
-termux-tools zsh -y
+pkg install zsh termux-tools git wget -y
 chsh -s $(which zsh)
-curl -Lo install.sh https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
-sh install.sh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+sed -i 's/ZSH_THEME="robbyrussell"/ZSH_THEME="agnoster"/g' .zshrc
+
+# install ZSH Syntax Highlighting for Oh My Zsh
+
+## Clone the ZSH Syntax Highlighting
+
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$HOME/.zsh-syntax-highlighting" --depth 1
+
+## Add syntax-highlighting in .zshrc Configuration
+
+echo "source $HOME/.zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> "$HOME/.zshrc"
 
 #Acessa memoria do celular
 termux-setup-storage
