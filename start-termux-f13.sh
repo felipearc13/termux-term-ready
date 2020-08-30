@@ -59,7 +59,7 @@ chmod +x $PREFIX/etc/xdg/openbox/autostart
 ## Instalando zsh
 
 pkg install zsh termux-tools git wget -y
-chsh -s $(which zsh)
+chsh -s zsh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 sed -i 's/ZSH_THEME="robbyrussell"/ZSH_THEME="agnoster"/g' .zshrc
 
