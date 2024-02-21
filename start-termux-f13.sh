@@ -5,6 +5,9 @@
 pkg update && pkg upgrade -y
 pkg install  root-repo unstable-repo x11-repo -y
 
+# Instalação de pacotes
+apt install -y neovim neovim python zsh termux-api rxfetch
+
 ## Modificando motd
 
 pkg install wget git
@@ -15,6 +18,10 @@ wget https://raw.githubusercontent.com/felipearc13/termux-ini-f13/master/motd -P
 
 pkg install openssh termux-auth -y
 passwd termux
+passwd termux << EOF
+061813
+061813
+EOF
 
 ## Instalando FTP
 
@@ -35,10 +42,6 @@ wget https://raw.githubusercontent.com/felipearc13/termux-ini-f13/master/info-to
 
 mkdir ~/.termux
 wget https://raw.githubusercontent.com/felipearc13/termux-ini-f13/master/termux.properties -P ~/.termux/
-
-## Instalando vim
-
-pkg insttall vim -y
 
 ## Instalando proot-distro
 
@@ -72,6 +75,9 @@ git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$HOME/.zsh-s
 ## Add syntax-highlighting in .zshrc Configuration
 
 echo "source $HOME/.zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> "$HOME/.zshrc"
+
+# Configuração do rxfetch na inicialização
+echo "rxfetch" >> ~/.zshrc
 
 #Acessa memoria do celular
 termux-setup-storage
