@@ -7,7 +7,7 @@ pkg install  root-repo unstable-repo x11-repo -y
 
 ## Modificando motd
 
-pkg install wget git
+pkg install wget git 
 mv /data/data/com.termux/files/usr/etc/motd  /data/data/com.termux/files/usr/etc/motd.bkp
 wget https://raw.githubusercontent.com/felipearc13/termux-ini-f13/master/motd -P /data/data/com.termux/files/usr/etc/
 
