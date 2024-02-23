@@ -17,3 +17,24 @@ pkg update
 pkg upgrade
 ```
 - Download the script from GitHub with the command:
+
+```bash
+wget https://raw.githubusercontent.com/felipearc13/termux-ready/master/install.sh
+```
+- Make the script executable with the command:
+
+```bash
+chmod +x install.sh
+```
+
+Run the script with the command:
+
+```bash
+./install.sh
+```
+
+- Follow the instructions on the screen and enter the password you want to use for openssh.
+- Wait for the script to finish and restart Termux.
+- Done, you installed Termux Ready and can enjoy your customized terminal.
+
+  
