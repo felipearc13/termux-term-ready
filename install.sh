@@ -64,7 +64,7 @@ set_rxfetch() {
 add_extra_keys() {
   echo "Adding extra-keys..."
   mv "$TERMUX_CONFIG" "$BACKUP_DIR/termux.properties"
-  wget https://raw.githubusercontent.com/felipearc13/termux-ini-f13/master/termux.properties -P "$TERMUX_DIR/"
+  wget https://raw.githubusercontent.com/felipearc13/termux-ready/master/termux.properties -P "$TERMUX_DIR/"
 }
 
 # Function to clone the ZSH Syntax Highlighting
