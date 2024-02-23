@@ -84,7 +84,7 @@ restart_shell() {
 set_ssh_password() {
   echo "Definindo a senha do openssh..."
   passwd termux
-  sshd
+  echo -e "\nsshd" >> "$ZSH_CONFIG"
 }
 
 # Função para acessar a memória do celular
