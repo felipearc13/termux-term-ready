@@ -63,7 +63,7 @@ set_rxfetch() {
 # Function to add extra-keys
 add_extra_keys() {
   echo "Adding extra-keys..."
-  cp "$TERMUX_CONFIG" "$BACKUP_DIR/termux.properties"
+  mv "$TERMUX_CONFIG" "$BACKUP_DIR/termux.properties"
   wget https://raw.githubusercontent.com/felipearc13/termux-ini-f13/master/termux.properties -P "$TERMUX_DIR/"
 }
 
