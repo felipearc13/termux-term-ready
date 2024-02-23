@@ -1,6 +1,6 @@
 # Termux Ready
 
-Termux Ready is a script that makes it easy to set up Termux, a Linux terminal for Android. It installs and customizes zsh, Oh My Zsh, fira-code font, Agnoster theme, rxfetch, extra-keys, ZSH Syntax Highlighting, openssh and termux-api.
+Termux Ready is a script that makes it easy to set up Termux. It installs and customizes zsh, Oh My Zsh, fira-code font, Agnoster theme, rxfetch, extra-keys, ZSH Syntax Highlighting, openssh and termux-api.
 
 ## Prerequisites
 
