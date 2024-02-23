@@ -4,7 +4,9 @@ Termux Ready is a script that makes it easy to set up Termux. It installs and cu
 
 ## Prerequisites
 
-To use this script, you need to have Termux installed on your Android device. You can download Termux from the [Google Play Store](https://translate.google.com/?hl=pt-BR) or from the [F-Droid](https://translate.google.com.br/?hl=en).
+To use this script, you need to have Termux installed on your Android device. 
+
+You can find information about Termux here.
 
 ## Installation
 
