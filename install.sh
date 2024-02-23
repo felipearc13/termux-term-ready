@@ -1,9 +1,9 @@
 #!/data/data/com.termux/files/usr/bin/bash
 
-# Parar o script se ocorrer algum erro
+# Stop the script if any error occurs
 set -e
 
-# Criar variáveis para os caminhos dos arquivos
+# Create variables for the file paths
 export HOME_DIR="$HOME"
 export BACKUP_DIR="$HOME_DIR/backup"
 export TERMUX_DIR="$HOME_DIR/.termux"
@@ -13,29 +13,29 @@ export ZSH_CONFIG="$HOME_DIR/.zshrc"
 export TERMUX_CONFIG="$TERMUX_DIR/termux.properties"
 export ZSH_SYNTAX="$HOME_DIR/.zsh-syntax-highlighting"
 
-# Função para instalar os pacotes
+# Function to install the packages
 install_packages() {
-  echo "Instalando os pacotes..."
+  echo "Installing the packages..."
   pkg install -y neovim vim python zsh termux-api termux-tools rxfetch wget git expect openssh termux-auth
 }
 
-# Função para definir o zsh como o shell padrão
+# Function to set zsh as the default shell
 set_zsh() {
-  echo "Definindo o zsh como o shell padrão..."
+  echo "Setting zsh as the default shell..."
   chsh -s zsh
 }
 
-# Função para instalar o Oh My Zsh
+# Function to install Oh My Zsh
 install_oh_my_zsh() {
-  echo "Instalando o Oh My Zsh..."
+  echo "Installing Oh My Zsh..."
   wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O install_oh_my_zsh.sh
   sh install_oh_my_zsh.sh < /dev/null
   rm install_oh_my_zsh.sh
 }
 
-# Função para instalar a fonte fira-code
+# Function to install the fira-code font
 install_fira_code() {
-  echo "Instalando a fonte fira-code..."
+  echo "Installing the fira-code font..."
   git clone https://github.com/notflawffles/termux-nerd-installer.git
   cd termux-nerd-installer
   make install
@@ -45,72 +45,72 @@ install_fira_code() {
   rm -rf termux-nerd-installer
 }
 
-# Função para definir o tema Agnoster como padrão
+# Function to set Agnoster as the default theme
 set_agnoster() {
-  echo "Definindo o tema Agnoster como padrão..."
+  echo "Setting Agnoster as the default theme..."
   mkdir -p "$BACKUP_DIR"
   cp "$ZSH_THEME" "$BACKUP_DIR/agnoster.zsh-theme"
   sed -i 's/@%m//' "$ZSH_THEME"
   sed -i 's/ZSH_THEME=.*/ZSH_THEME="agnoster"/' "$ZSH_CONFIG"
 }
 
-# Função para modificar a mensagem de inicialização por rxfetch
+# Function to modify the startup message by rxfetch
 set_rxfetch() {
-  echo "Modificando a mensagem de inicialização por rxfetch..."
+  echo "Modifying the startup message by rxfetch..."
   echo -e "\nrxfetch" >> "$ZSH_CONFIG"
 }
 
-# Função para adicionar extra-keys
+# Function to add extra-keys
 add_extra_keys() {
-  echo "Adicionando extra-keys..."
+  echo "Adding extra-keys..."
   cp "$TERMUX_CONFIG" "$BACKUP_DIR/termux.properties"
   wget https://raw.githubusercontent.com/felipearc13/termux-ini-f13/master/termux.properties -P "$TERMUX_DIR/"
 }
 
-# Função para clonar o ZSH Syntax Highlighting
+# Function to clone the ZSH Syntax Highlighting
 clone_zsh_syntax() {
-  echo "Clonando o ZSH Syntax Highlighting..."
+  echo "Cloning the ZSH Syntax Highlighting..."
   git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$ZSH_SYNTAX" --depth 1
   echo "source $ZSH_SYNTAX/zsh-syntax-highlighting.zsh" >> "$ZSH_CONFIG"
 }
 
-# Função para reiniciar o shell
+# Function to restart the shell
 restart_shell() {
-  echo "Reiniciando o shell..."
+  echo "Restarting the shell..."
   exec zsh
 }
 
-# Função para definir a senha do openssh
+# Function to set the openssh password
 set_ssh_password() {
-  echo "Definindo a senha do openssh..."
+  echo "Setting the openssh password..."
   passwd termux
   echo -e "\nsshd" >> "$ZSH_CONFIG"
 }
 
-# Função para acessar a memória do celular
+# Function to access the cell phone memory
 setup_storage() {
-  echo "Acessando a memória do celular..."
+  echo "Accessing the cell phone memory..."
   termux-setup-storage
 }
 
-# Função para limpar os arquivos temporários
+# Function to clean up the temporary files
 cleanup() {
-  echo "Limpando os arquivos temporários..."
+  echo "Cleaning up the temporary files..."
   rm -f install_oh_my_zsh.sh
 }
 
-# Função para restaurar as configurações originais
+# Function to restore the original settings
 #restore() {
-#  echo "Restaurando as configurações originais..."
+#  echo "Restoring the original settings..."
 #  cp "$BACKUP_DIR/agnoster.zsh-theme" "$ZSH_THEME"
 #  cp "$BACKUP_DIR/termux.properties" "$TERMUX_CONFIG"
 #}
 
-# Definir ações que devem ser executadas quando o script terminar ou for interrompido
+# Define actions that should be executed when the script ends or is interrupted
 trap cleanup EXIT
 trap restore INT
 
-# Executar as funções em sequência
+# Execute the functions in sequence
 install_packages &&
 set_zsh &&
 install_oh_my_zsh &&
@@ -121,4 +121,4 @@ add_extra_keys &&
 clone_zsh_syntax &&
 set_ssh_password &&
 setup_storage &&
-restart_shell 
+restart_shell
