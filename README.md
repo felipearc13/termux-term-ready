@@ -16,7 +16,7 @@ To install Termux Ready, follow these steps:
 
 ```bash
 pkg update
-pkg upgrade
+pkg upgrade -y
 ```
 - Download the script from GitHub with the command:
 
