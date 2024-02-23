@@ -1,59 +1,124 @@
 #!/data/data/com.termux/files/usr/bin/bash
 
-# Instalar pacotes sem interação
-pkg install -y neovim vim python zsh termux-api termux-tools rxfetch wget git expect openssh termux-auth
+# Parar o script se ocorrer algum erro
+set -e
 
-# Definir Zsh como o shell padrão
-chsh -s zsh
+# Criar variáveis para os caminhos dos arquivos
+export HOME_DIR="$HOME"
+export BACKUP_DIR="$HOME_DIR/backup"
+export TERMUX_DIR="$HOME_DIR/.termux"
+export ZSH_DIR="$HOME_DIR/.oh-my-zsh"
+export ZSH_THEME="$ZSH_DIR/themes/agnoster.zsh-theme"
+export ZSH_CONFIG="$HOME_DIR/.zshrc"
+export TERMUX_CONFIG="$TERMUX_DIR/termux.properties"
+export ZSH_SYNTAX="$HOME_DIR/.zsh-syntax-highlighting"
 
-# Excluir a pasta ~/.oh-my-zsh se existir
-if [ -d "$HOME/.oh-my-zsh" ]; then
-    rm -rf "$HOME/.oh-my-zsh"
-fi
+# Função para instalar os pacotes
+install_packages() {
+  echo "Instalando os pacotes..."
+  pkg install -y neovim vim python zsh termux-api termux-tools rxfetch wget git expect openssh termux-auth
+}
 
-# Baixar o script de instalação do Oh My Zsh
-wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O install_oh_my_zsh.sh
+# Função para definir o zsh como o shell padrão
+set_zsh() {
+  echo "Definindo o zsh como o shell padrão..."
+  chsh -s zsh
+}
 
-# Executar o script de instalação do Oh My Zsh com redirecionamento de entrada
-sh install_oh_my_zsh.sh < /dev/null
+# Função para instalar o Oh My Zsh
+install_oh_my_zsh() {
+  echo "Instalando o Oh My Zsh..."
+  wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O install_oh_my_zsh.sh
+  sh install_oh_my_zsh.sh < /dev/null
+  rm install_oh_my_zsh.sh
+}
 
-# Excluir o script de instalação do Oh My Zsh
-rm install_oh_my_zsh.sh
+# Função para instalar a fonte fira-code
+install_fira_code() {
+  echo "Instalando a fonte fira-code..."
+  git clone https://github.com/notflawffles/termux-nerd-installer.git
+  cd termux-nerd-installer
+  make install
+  termux-nerd-installer i fira-code
+  termux-nerd-installer set fira-code
+  cd $HOME_DIR
+  rm -rf termux-nerd-installer
+}
 
-# Voltar para o diretório inicial
-cd $HOME
+# Função para definir o tema Agnoster como padrão
+set_agnoster() {
+  echo "Definindo o tema Agnoster como padrão..."
+  mkdir -p "$BACKUP_DIR"
+  cp "$ZSH_THEME" "$BACKUP_DIR/agnoster.zsh-theme"
+  sed -i 's/@%m//' "$ZSH_THEME"
+  sed -i 's/ZSH_THEME=.*/ZSH_THEME="agnoster"/' "$ZSH_CONFIG"
+}
 
-# Instalar fonte meslo
-git clone https://github.com/notflawffles/termux-nerd-installer.git
-cd termux-nerd-installer
-make install
-termux-nerd-installer i meslo
-termux-nerd-installer set meslo
+# Função para modificar a mensagem de inicialização por rxfetch
+set_rxfetch() {
+  echo "Modificando a mensagem de inicialização por rxfetch..."
+  echo -e "\nrxfetch" >> "$ZSH_CONFIG"
+}
 
-# Instalar o tema Powerlevel10k sem interação
-git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $HOME/.oh-my-zsh/custom/themes/powerlevel10k
-wget https://raw.githubusercontent.com/felipearc13/termux-ini-f13/master/.p10k.zsh -P $HOME/ 
+# Função para adicionar extra-keys
+add_extra_keys() {
+  echo "Adicionando extra-keys..."
+  cp "$TERMUX_CONFIG" "$BACKUP_DIR/termux.properties"
+  wget https://raw.githubusercontent.com/felipearc13/termux-ini-f13/master/termux.properties -P "$TERMUX_DIR/"
+}
 
-# Configurar o tema Powerlevel10k como tema padrão
-sed -i 's/ZSH_THEME=.*/ZSH_THEME="powerlevel10k\/powerlevel10k"/' $HOME/.zshrc
- 
+# Função para clonar o ZSH Syntax Highlighting
+clone_zsh_syntax() {
+  echo "Clonando o ZSH Syntax Highlighting..."
+  git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$ZSH_SYNTAX" --depth 1
+  echo "source $ZSH_SYNTAX/zsh-syntax-highlighting.zsh" >> "$ZSH_CONFIG"
+}
 
-# Adicionando extra-keys
-mkdir ~/.termux
-wget https://raw.githubusercontent.com/felipearc13/termux-ini-f13/master/termux.properties -P ~/.termux/
+# Função para reiniciar o shell
+restart_shell() {
+  echo "Reiniciando o shell..."
+  exec zsh
+}
 
-## Clone the ZSH Syntax Highlighting
-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$HOME/.zsh-syntax-highlighting" --depth 1
-echo "source $HOME/.zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> "$HOME/.zshrc"
+# Função para definir a senha do openssh
+set_ssh_password() {
+  echo "Definindo a senha do openssh..."
+  passwd termux
+  sshd
+}
 
+# Função para acessar a memória do celular
+setup_storage() {
+  echo "Acessando a memória do celular..."
+  termux-setup-storage
+}
 
+# Função para limpar os arquivos temporários
+cleanup() {
+  echo "Limpando os arquivos temporários..."
+  rm -f install_oh_my_zsh.sh
+}
 
-# Reiniciar o shell para aplicar as alterações
-exec zsh
+# Função para restaurar as configurações originais
+#restore() {
+#  echo "Restaurando as configurações originais..."
+#  cp "$BACKUP_DIR/agnoster.zsh-theme" "$ZSH_THEME"
+#  cp "$BACKUP_DIR/termux.properties" "$TERMUX_CONFIG"
+#}
 
-# Definir a senha do openssh
-passwd termux
-sshd
+# Definir ações que devem ser executadas quando o script terminar ou for interrompido
+trap cleanup EXIT
+trap restore INT
 
-#Acessa memoria do celular
-termux-setup-storage
+# Executar as funções em sequência
+install_packages &&
+set_zsh &&
+install_oh_my_zsh &&
+install_fira_code &&
+set_agnoster &&
+set_rxfetch &&
+add_extra_keys &&
+clone_zsh_syntax &&
+set_ssh_password &&
+setup_storage &&
+restart_shell 
