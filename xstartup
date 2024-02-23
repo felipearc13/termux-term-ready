@@ -1,4 +1,0 @@
-#!/data/data/com.termux/files/usr/bin/sh
-
-# Start Openbox.
-openbox-session &
