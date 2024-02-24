@@ -21,9 +21,8 @@ sleep 5
 mysql -u root -e "CREATE DATABASE wordpress; GRANT ALL PRIVILEGES ON wordpress.* TO 'wordpress'@'localhost' IDENTIFIED BY '061813'; FLUSH PRIVILEGES;"
 
 # Backup e instalação do WordPress
-mkdir -p $HOME/share_bkp
-cp -r $PREFIX/share $HOME/share_bkp
-rm -rf $PREFIX/share
+mv -r $PREFIX/share $HOME/share_bkp
+mkdir -p $PREFIX/share
 wget https://wordpress.org/latest.tar.gz -O $PREFIX/share/latest.tar.gz
 tar -xzvf $PREFIX/share/latest.tar.gz -C $PREFIX/share --strip-components=1
 
