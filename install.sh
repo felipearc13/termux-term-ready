@@ -58,7 +58,7 @@ set_agnoster() {
 set_rxfetch() {
   echo "Modifying the startup message by rxfetch..."
   echo -e "\nrxfetch" >> "$ZSH_CONFIG"
-  mv motd motd.bak 
+  mv $PRFIX/etc/motd $PRFIX/etc/motd.bak 
 }
 
 # Function to add extra-keys
