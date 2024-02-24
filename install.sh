@@ -54,17 +54,17 @@ set_agnoster() {
   sed -i 's/ZSH_THEME=.*/ZSH_THEME="agnoster"/' "$ZSH_CONFIG"
 }
 
-# Function to modify the startup message by 
-set_rxfetch () {
+# Function to modify the startup message by rxfetch
+set_rxfetch() {
   echo "Modifying the startup message by rxfetch..."
-  echo -e "\nrxfetch" >> "$ZSH_CONFIG" 
+  echo -e "\nrxfetch" >> "$ZSH_CONFIG"
 }
 
 # Function to add extra-keys
 add_extra_keys() {
   echo "Adding extra-keys..."
-  mv "$TERMUX_CONFIG" "$BACKUP_DIR/termux.properties"
-  wget https://raw.githubusercontent.com/felipearc13/termux-ready/master/termux.properties -P "$TERMUX_DIR/"
+  cp "$TERMUX_CONFIG" "$BACKUP_DIR/termux.properties"
+  wget https://raw.githubusercontent.com/felipearc13/termux-ini-f13/master/termux.properties -P "$TERMUX_DIR/"
 }
 
 # Function to clone the ZSH Syntax Highlighting
@@ -116,7 +116,7 @@ set_zsh &&
 install_oh_my_zsh &&
 install_fira_code &&
 set_agnoster &&
-#set_rxfetch &&
+set_rxfetch &&
 add_extra_keys &&
 clone_zsh_syntax &&
 set_ssh_password &&
