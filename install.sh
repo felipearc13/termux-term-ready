@@ -54,8 +54,8 @@ set_agnoster() {
   sed -i 's/ZSH_THEME=.*/ZSH_THEME="agnoster"/' "$ZSH_CONFIG"
 }
 
-# Function to modify the startup message by rxfetch
-set_rxfetch() {
+# Function to modify the startup message by 
+set_() {
   echo "Modifying the startup message by rxfetch..."
   echo -e "\nrxfetch" >> "$ZSH_CONFIG"
   mv $PREFIX/etc/motd $PREFIX/etc/motd.bak 
