@@ -55,10 +55,9 @@ set_agnoster() {
 }
 
 # Function to modify the startup message by 
-set_() {
+set_rxfetch () {
   echo "Modifying the startup message by rxfetch..."
-  echo -e "\nrxfetch" >> "$ZSH_CONFIG"
-  mv $PREFIX/etc/motd $PREFIX/etc/motd.bak 
+  echo -e "\nrxfetch" >> "$ZSH_CONFIG" 
 }
 
 # Function to add extra-keys
@@ -117,7 +116,7 @@ set_zsh &&
 install_oh_my_zsh &&
 install_fira_code &&
 set_agnoster &&
-set_rxfetch &&
+#set_rxfetch &&
 add_extra_keys &&
 clone_zsh_syntax &&
 set_ssh_password &&
