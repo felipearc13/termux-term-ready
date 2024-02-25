@@ -1,5 +1,4 @@
 #!/bin/bash
-
 echo -e "\e[38;5;196m████████╗███████╗██████╗ ███╗   ███╗"
 echo -e "\e[38;5;202m╚══██╔══╝██╔════╝██╔══██╗████╗ ████║"
 echo -e "\e[38;5;208m   ██║   █████╗  ██████╔╝██╔████╔██║"
@@ -29,7 +28,7 @@ export ZSH_SYNTAX="$HOME_DIR/.zsh-syntax-highlighting"
 # Function to install the packages
 install_packages() {
   echo "Installing the packages..."
-  pkg install -y neovim vim python zsh termux-api termux-tools rxfetch wget git expect openssh termux-auth
+  pkg install -y neovim vim python zsh termux-api termux-tools neofetch wget git expect openssh termux-auth
 }
 
 # Function to set zsh as the default shell
@@ -67,17 +66,21 @@ set_agnoster() {
   sed -i 's/ZSH_THEME=.*/ZSH_THEME="agnoster"/' "$ZSH_CONFIG"
 }
 
-# Function to modify the startup message by rxfetch
+# Function to modify the startup message by neofetch
 set_rxfetch() {
-  echo "Modifying the startup message by rxfetch..."
-  echo -e "\nrxfetch" >> "$ZSH_CONFIG"
+  echo "Modifying the startup message by neofetch..."
+  echo -e "\necho Welcome to Termux!" >> "$ZSH_CONFIG"
+  echo -e "\necho Docs:       https://termux.dev/docs" >> "$ZSH_CONFIG"
+  echo -e "\necho Donate:     https://termux.dev/donate" >> "$ZSH_CONFIG"
+  echo -e "\necho Community:  https://termux.dev/communit" >> "$ZSH_CONFIG"
+  echo -e "\nsource $ZSH_SYNTAX/zsh-syntax-highlighting.zsh" >> "$ZSH_CONFIG"
+  echo -e "\neofetch --off" >> "$ZSH_CONFIG"
 }
 
 # Function to add extra-keys
 add_extra_keys() {
   echo "Adding extra-keys..."
   mv $HOME/.termux/termux.properties $HOME/.termux/termux.properties.bak
-  #cp "$TERMUX_CONFIG" "$BACKUP_DIR/termux.properties"
   wget https://raw.githubusercontent.com/felipearc13/termux-ini-f13/master/termux.properties -P "$TERMUX_DIR/"
 }
 
@@ -85,7 +88,6 @@ add_extra_keys() {
 clone_zsh_syntax() {
   echo "Cloning the ZSH Syntax Highlighting..."
   git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$ZSH_SYNTAX" --depth 1
-  echo "source $ZSH_SYNTAX/zsh-syntax-highlighting.zsh" >> "$ZSH_CONFIG"
 }
 
 # Function to restart the shell
