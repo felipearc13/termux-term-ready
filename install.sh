@@ -1,4 +1,17 @@
-#!/data/data/com.termux/files/usr/bin/bash
+#!/bin/bash
+
+echo -e "\e[38;5;196m████████╗███████╗██████╗ ███╗   ███╗"
+echo -e "\e[38;5;202m╚══██╔══╝██╔════╝██╔══██╗████╗ ████║"
+echo -e "\e[38;5;208m   ██║   █████╗  ██████╔╝██╔████╔██║"
+echo -e "\e[38;5;214m   ██║   ██╔══╝  ██╔══██╗██║╚██╔╝██║"
+echo -e "\e[38;5;220m   ██║   ███████╗██║  ██║██║ ╚═╝ ██║"
+echo -e "\e[38;5;226m   ╚═╝   ╚══════╝╚═╝  ╚═╝╚═╝     ╚═╝"
+echo -e "\e[38;5;226m██████╗ ███████╗ █████╗ ██████╗ ██╗   ██╗"
+echo -e "\e[38;5;220m██╔══██╗██╔════╝██╔══██╗██╔══██╗╚██╗ ██╔╝"
+echo -e "\e[38;5;214m██████╔╝█████╗  ███████║██║  ██║ ╚████╔╝"
+echo -e "\e[38;5;208m██╔══██╗██╔══╝  ██╔══██║██║  ██║  ╚██╔╝"
+echo -e "\e[38;5;202m██║  ██║███████╗██║  ██║██████╔╝   ██║"
+echo -e "\e[38;5;196m╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚═════╝    ╚═╝"
 
 # Stop the script if any error occurs
 set -e
@@ -63,7 +76,8 @@ set_rxfetch() {
 # Function to add extra-keys
 add_extra_keys() {
   echo "Adding extra-keys..."
-  cp "$TERMUX_CONFIG" "$BACKUP_DIR/termux.properties"
+  mv $HOME/.termux/termux.properties $HOME/.termux/termux.properties.bak
+  #cp "$TERMUX_CONFIG" "$BACKUP_DIR/termux.properties"
   wget https://raw.githubusercontent.com/felipearc13/termux-ini-f13/master/termux.properties -P "$TERMUX_DIR/"
 }
 
