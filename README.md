@@ -21,7 +21,7 @@ pkg upgrade -y
 - Download the script from GitHub with the command:
 
 ```bash
-curl -O https://raw.githubusercontent.com/felipearc13/termux-ready/master/install.sh && chmod +x install.sh && ./install.sh
+curl https://raw.githubusercontent.com/felipearc13/termux-term-ready/master/install.sh && chmod +x install.sh && ./install.sh
 ```
 
 - Follow the instructions on the screen and enter the password you want to use for openssh.
