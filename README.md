@@ -21,11 +21,21 @@ pkg upgrade -y
 - Download the script from GitHub with the command:
 
 ```bash
-curl https://raw.githubusercontent.com/felipearc13/termux-term-ready/master/install.sh && chmod +x install.sh && ./install.sh
+curl https://raw.githubusercontent.com/felipearc13/termux-term-ready/main/install.sh && chmod +x install.sh && ./install.sh
 ```
 
 - Follow the instructions on the screen and enter the password you want to use for openssh.
 - Wait for the script to finish and restart Termux.
 - Done, you installed Termux Ready and can enjoy your customized terminal.
 
-  
+## Optional: LAMP + WordPress
+
+`lamp_wordpress.sh` is a separate, optional script (not called by `install.sh`) that sets up
+PHP, MariaDB, Apache and a fresh WordPress install inside Termux:
+
+```bash
+curl https://raw.githubusercontent.com/felipearc13/termux-term-ready/main/lamp_wordpress.sh && chmod +x lamp_wordpress.sh && ./lamp_wordpress.sh
+```
+
+It generates a random database password on each run and prints it once at the end — copy it
+right away, it's needed for `wp-config.php` during the WordPress setup.
