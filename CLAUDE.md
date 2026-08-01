@@ -29,7 +29,8 @@ curl https://raw.githubusercontent.com/felipearc13/termux-term-ready/main/instal
 
 ## `install.sh` — passo a passo
 
-Banner ASCII art ("TERM READY") impresso primeiro, depois `set -e` (para no primeiro erro). Exporta os
+Banner ASCII art ("TERM READY") impresso primeiro, depois `set -Eeuo pipefail` (para em erro, variável não
+definida ou falha dentro de pipeline). Exporta os
 caminhos usados por todas as funções (`HOME_DIR`, `BACKUP_DIR=~/backup`, `TERMUX_DIR=~/.termux`,
 `ZSH_DIR=~/.oh-my-zsh`, etc.), então roda em sequência (`&&` entre cada chamada — para tudo se uma falhar):
 
@@ -43,59 +44,55 @@ caminhos usados por todas as funções (`HOME_DIR`, `BACKUP_DIR=~/backup`, `TERM
 5. `set_agnoster` — faz backup do tema Agnoster original em `$BACKUP_DIR`, remove `@%m` do tema (via `sed`,
    tira o hostname do prompt) e troca `ZSH_THEME` no `.zshrc` para `"agnoster"`.
 6. `set_rxfetch` — apesar do nome, não mexe no neofetch: só acrescenta linhas de boas-vindas no `.zshrc`
-   (mensagens fixas: "Welcome to Termux!", docs/donate/community), ativa o zsh-syntax-highlighting e desliga o
+   (mensagens fixas: "Welcome to Termux!", documentação e doação oficiais do Termux e comunidade no GitHub),
+   ativa o zsh-syntax-highlighting e desliga o
    neofetch automático (`neofetch --off` — comentário do próprio script diz que modifica a mensagem do
    neofetch, mas o efeito real é desligá-lo).
-7. `add_extra_keys` — faz backup do `termux.properties` atual e baixa um novo via `wget` de
-   `raw.githubusercontent.com/felipearc13/termux-ini-f13/master/termux.properties`. **Essa URL está quebrada**:
-   não existe (nem existiu, pelo histórico de repositórios conhecido) um repositório `termux-ini-f13` — o mais
-   próximo é o antigo `termux-f13`, que já foi apagado por ser subconjunto deste repositório. Corrigir para
-   apontar para o `termux.properties` deste próprio repositório antes de confiar nesta função.
+7. `add_extra_keys` — cria `~/.termux` quando necessário, preserva o `termux.properties` existente como
+   `termux.properties.bak` e baixa a versão deste próprio repositório para o caminho final. Uma instalação
+   limpa, ainda sem arquivo anterior, segue normalmente.
 8. `clone_zsh_syntax` — clona `zsh-users/zsh-syntax-highlighting` (`--depth 1`).
-9. `set_ssh_password` — roda `passwd termux` (interativo, pede senha nova na hora — não hardcoded) e adiciona
+9. `set_ssh_password` — roda `passwd` para o usuário atual do Termux (interativo, pede senha nova na hora) e adiciona
    `sshd` ao `.zshrc` (inicia o servidor SSH a cada shell novo).
 10. `setup_storage` — `termux-setup-storage` (pede permissão de acesso ao armazenamento do Android).
 11. `restart_shell` — `exec zsh`.
 
-**Bug conhecido**: `trap restore INT` está registrado perto do fim do script, mas a função `restore()` está
-**comentada** logo acima (bloco `#restore() { ... }` desativado). Se o script for interrompido com Ctrl+C, o
-trap tenta chamar uma função inexistente — vai falhar com erro em vez de restaurar o tema/config originais do
-backup. `cleanup()` (trap `EXIT`, remove o instalador temporário do Oh My Zsh) funciona normalmente.
+Ao receber `Ctrl+C`, `restore()` restaura somente os backups que já existem (tema Agnoster e
+`termux.properties`) e encerra com status `130`; uma interrupção antes da criação de algum backup não gera um
+segundo erro. `cleanup()` roda no `EXIT` e remove o instalador temporário do Oh My Zsh.
 
 ## `lamp_wordpress.sh`
 
 Script independente (não chamado pelo `install.sh`), roda com o shebang do bash do Termux
 (`/data/data/com.termux/files/usr/bin/bash`):
 
-1. Instala `php mariadb apache2 php-apache wget`.
-2. Edita `$PREFIX/etc/apache2/httpd.conf` via `sed`: troca o MPM de `prefork` para `worker`, injeta
-   `LoadModule php_module` depois do `mod_rewrite`, muda `AllowOverride None` para `FileInfo`, injeta
-   `DirectoryIndex index.php` dentro de `<IfModule dir_module>`, troca `index.html` por `index.php` como
-   índice padrão, injeta `SetHandler application/x-httpd-php` depois do bloco `<FilesMatch \.php$`.
-3. Escreve `php.ini` com `upload_max_filesize = 32M` e `post_max_size = 32M`.
-4. Sobe o MariaDB (`mysqld_safe &`, `sleep 5`) e roda `CREATE DATABASE wordpress; GRANT ALL PRIVILEGES ON
-   wordpress.* TO 'wordpress'@'localhost' IDENTIFIED BY '061813'`. **Senha hardcoded em texto puro
-   (`061813`) num repositório público** — é uma senha local ao MariaDB do próprio Termux (só acessível de
-   dentro do dispositivo por padrão, sem exposição de rede automática), mas ainda assim é credencial hardcoded
-   publicada; trocar antes de usar em qualquer instalação real.
-5. Faz backup de `$PREFIX/share` para `$HOME/share_bkp`, baixa o WordPress mais recente
-   (`wordpress.org/latest.tar.gz`) e extrai em `$PREFIX/share` (nota: o comando usado é `mv -r`, que **não é
-   uma flag válida do `mv`** — `mv` não tem `-r`; isso provavelmente falha ou é ignorado silenciosamente
-   dependendo do shell).
+1. Instala `php mariadb apache2 php-apache wget openssl-tool`.
+2. Edita `$PREFIX/etc/apache2/httpd.conf` de forma idempotente: habilita `mpm_prefork` e desabilita
+   `mpm_worker` para uso do `mod_php`, carrega `php_module`, define o handler de `.php`, mantém
+   `index.php index.html` como índices e muda `AllowOverride` somente no `DocumentRoot`.
+3. Escreve `$PREFIX/etc/php/php.ini`, caminho de configuração do pacote atual, com
+   `upload_max_filesize = 32M` e `post_max_size = 32M`.
+4. Sobe o MariaDB (`mysqld_safe &`, `sleep 5`), gera uma senha aleatória hexadecimal de 48 caracteres com
+   `openssl`, cria/atualiza o usuário local `wordpress` e imprime a senha uma única vez para uso no
+   `wp-config.php`. Nenhuma senha fica versionada.
+5. Preserva o `DocumentRoot` atual em `~/wordpress-htdocs-backup` (somente se o backup ainda não existe), baixa
+   o WordPress mais recente e o extrai diretamente em
+   `$PREFIX/share/apache2/default-site/htdocs`. A árvore inteira `$PREFIX/share`, compartilhada por outros
+   pacotes, não é movida. Ao final, roda `httpd -t` para validar a configuração.
 6. Cria `$PREFIX/bin/termux_boot_script` (sobe MariaDB + `httpd` no boot) e roda `termux-reload-settings`.
 
 ## `httpd.conf`
 
-Cópia completa e comentada do `httpd.conf` padrão do Apache 2.4 empacotado pro Termux, com os ajustes do
-`lamp_wordpress.sh` já aplicados neste arquivo versionado (ou seja, este arquivo reflete o **resultado** dos
-`sed` acima, não o original intocado). Pontos-chave: `ServerRoot "/data/data/com.termux/files/usr"`,
+Cópia de referência do `httpd.conf` do Apache 2.4 empacotado para Termux. O `lamp_wordpress.sh` altera a cópia
+instalada em `$PREFIX/etc/apache2/httpd.conf`; ele não edita automaticamente este arquivo versionado. Pontos-chave
+desta referência: `ServerRoot "/data/data/com.termux/files/usr"`,
 `Listen 8080` (não a porta 80 padrão — Termux não tem permissão pra bind em portas <1024 sem root),
 `DocumentRoot "/data/data/com.termux/files/usr/share/apache2/default-site/htdocs"`.
 
 ## `termux.properties`
 
 3 linhas — configuração de extra-keys copiada para `~/.termux/termux.properties` pela função `add_extra_keys`
-do `install.sh` (uma vez corrigida a URL quebrada, ver acima).
+do `install.sh`.
 
 ## `conf.d/`
 

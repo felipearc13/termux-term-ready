@@ -12,8 +12,8 @@ echo -e "\e[38;5;208m██╔══██╗██╔══╝  ██╔══
 echo -e "\e[38;5;202m██║  ██║███████╗██║  ██║██████╔╝   ██║"
 echo -e "\e[38;5;196m╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚═════╝    ╚═╝"
 
-# Stop the script if any error occurs
-set -e
+# Stop on errors, unset variables and failed commands in pipelines.
+set -Eeuo pipefail
 
 # Create variables for the file paths
 export HOME_DIR="$HOME"
@@ -70,9 +70,9 @@ set_agnoster() {
 set_rxfetch() {
   echo "Modifying the startup message by neofetch..."
   echo -e "\necho Welcome to Termux!" >> "$ZSH_CONFIG"
-  echo -e "\necho Docs:       https://termux.dev/docs" >> "$ZSH_CONFIG"
-  echo -e "\necho Donate:     https://termux.dev/donate" >> "$ZSH_CONFIG"
-  echo -e "\necho Community:  https://termux.dev/communit" >> "$ZSH_CONFIG"
+  echo -e "\necho Docs:       https://termux.dev/en/docs/" >> "$ZSH_CONFIG"
+  echo -e "\necho Donate:     https://termux.dev/en/donate.html" >> "$ZSH_CONFIG"
+  echo -e "\necho Community:  https://github.com/termux" >> "$ZSH_CONFIG"
   echo -e "\nsource $ZSH_SYNTAX/zsh-syntax-highlighting.zsh" >> "$ZSH_CONFIG"
   echo -e "\neofetch --off" >> "$ZSH_CONFIG"
 }
@@ -80,8 +80,13 @@ set_rxfetch() {
 # Function to add extra-keys
 add_extra_keys() {
   echo "Adding extra-keys..."
-  mv $HOME/.termux/termux.properties $HOME/.termux/termux.properties.bak
-  wget https://raw.githubusercontent.com/felipearc13/termux-ini-f13/master/termux.properties -P "$TERMUX_DIR/"
+  mkdir -p "$TERMUX_DIR"
+  if [ -f "$TERMUX_CONFIG" ]; then
+    cp "$TERMUX_CONFIG" "$TERMUX_CONFIG.bak"
+  fi
+  wget -q \
+    https://raw.githubusercontent.com/felipearc13/termux-term-ready/main/termux.properties \
+    -O "$TERMUX_CONFIG"
 }
 
 # Function to clone the ZSH Syntax Highlighting
@@ -99,7 +104,7 @@ restart_shell() {
 # Function to set the openssh password
 set_ssh_password() {
   echo "Setting the openssh password..."
-  passwd termux
+  passwd
   echo -e "\nsshd" >> "$ZSH_CONFIG"
 }
 
@@ -116,11 +121,16 @@ cleanup() {
 }
 
 # Function to restore the original settings
-#restore() {
-#  echo "Restoring the original settings..."
-#  cp "$BACKUP_DIR/agnoster.zsh-theme" "$ZSH_THEME"
-#  cp "$BACKUP_DIR/termux.properties" "$TERMUX_CONFIG"
-#}
+restore() {
+  echo "Restoring the original settings..."
+  if [ -f "$BACKUP_DIR/agnoster.zsh-theme" ]; then
+    cp "$BACKUP_DIR/agnoster.zsh-theme" "$ZSH_THEME"
+  fi
+  if [ -f "$TERMUX_CONFIG.bak" ]; then
+    cp "$TERMUX_CONFIG.bak" "$TERMUX_CONFIG"
+  fi
+  exit 130
+}
 
 # Define actions that should be executed when the script ends or is interrupted
 trap cleanup EXIT
