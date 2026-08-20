@@ -97,3 +97,8 @@ do `install.sh`.
 ## `conf.d/`
 
 Pasta vazia no momento — sem arquivos rastreados.
+
+## Aprendizado contínuo
+
+Sempre que um erro for identificado e corrigido numa sessão, registre aqui a causa e a correção,
+para não repetir. Sempre que uma abordagem funcionar bem, registre como referência para a próxima vez.
