@@ -98,6 +98,12 @@ do `install.sh`.
 
 Pasta vazia no momento — sem arquivos rastreados.
 
+## README
+
+`README.md` (aqui e em qualquer subpasta) não registra dado que envelhece — versão, data,
+contagem, status atual. Aponte para o comando/arquivo que mostra o estado atual em vez de fixar
+um valor.
+
 ## Aprendizado contínuo
 
 Sempre que um erro for identificado e corrigido numa sessão, registre aqui a causa e a correção,
