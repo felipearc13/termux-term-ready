@@ -2,6 +2,14 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+> ⚠️ **Repositório absorvido em 08/09/2026.** O conteúdo foi copiado para
+> [`infra-pessoal`](../infra-pessoal), em `s23-ultra/one-ui/termux/` — leia o `CLAUDE.md` de lá
+> antes deste: a cópia já corrige um erro que este arquivo ainda repete (`conf.d` é um **arquivo**
+> XML de fontconfig, não uma pasta vazia — snippet órfão que nenhum script referencia) e não trava
+> mais contagens de linha que envelhecem. Este repositório continua público e é de onde o
+> `install.sh` é baixado via `curl` (ver README) — não apague nem torne privado sem atualizar esse
+> comando; mas para orientação de trabalho, prefira o `CLAUDE.md` de `infra-pessoal`.
+
 ## O que é este repositório
 
 Script de setup do Termux (terminal Android) — não é uma aplicação, é um instalador shell que customiza um
