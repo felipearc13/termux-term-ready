@@ -10,6 +10,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 > `install.sh` é baixado via `curl` (ver README) — não apague nem torne privado sem atualizar esse
 > comando; mas para orientação de trabalho, prefira o `CLAUDE.md` de `infra-pessoal`.
 
+## Idioma das respostas
+
+**Responda sempre em português do Brasil** — explicações, resumos, perguntas e mensagens de
+status —, mesmo quando o código, os logs ou este arquivo estiverem em inglês.
+
 ## O que é este repositório
 
 Script de setup do Termux (terminal Android) — não é uma aplicação, é um instalador shell que customiza um
